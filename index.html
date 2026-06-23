@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Mission Jeet â€” Your personal IIT preparation command center. Track tasks, tests, chapters, and rank progress on your journey to your dream IIT.">
+<title>MISSION JEET | IIT Preparation Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="bg-aurora"></div>
+<div class="bg-grid"></div>
+<div class="particles" id="particles"></div>
+
+<!-- ======================================================
+     AUTH SCREEN
+====================================================== -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <span class="auth-rocket">ðŸš€</span>
+    <div class="auth-tagline">IIT PREPARATION COMMAND CENTER</div>
+    <h1 class="auth-title">Mission Jeet</h1>
+    <p class="auth-sub">Your personal command center for cracking IIT.<br>Track. Analyze. Conquer.</p>
+    <button class="auth-google-btn" onclick="signInWithGoogle()" id="googleSignInBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
+    </button>
+    <div id="authLoadingWrap" class="hidden auth-loading-wrap">
+      <div class="spinner"></div>
+      <div class="auth-loading-text">Launching your command center...</div>
+    </div>
+    <div class="auth-divider">Need help?</div>
+    <div class="auth-support">
+      <a href="https://wa.me/918292455724" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="mailto:Diveshsah2@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     MAIN APP
+====================================================== -->
+<div id="app" class="app hidden">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-brand">
+        <div class="sb-logo">MJ</div>
+        <div class="sb-brand-text">
+          <h1>Mission Jeet</h1>
+          <p>IIT Command Center</p>
+        </div>
+      </div>
+      <div class="sb-user" onclick="goSection('settings')">
+        <div class="sb-avatar" id="sbAvatar">
+          <img id="sbAvatarImg" src="" alt="" style="display:none">
+          <span id="sbAvatarFallback">ðŸ‘¤</span>
+        </div>
+        <div class="sb-user-info" style="min-width:0;flex:1">
+          <div class="sb-user-name" id="sbUserName">Student</div>
+          <div class="sb-user-status">â— Online</div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-section">
+        <div class="sb-section-label">Mission</div>
+        <button class="nav-btn active" data-sec="dashboard" onclick="goSection('dashboard',this)"><span class="nav-icon">ðŸŽ¯</span>Dashboard</button>
+        <button class="nav-btn" data-sec="tasks" onclick="goSection('tasks',this)">
+          <span class="nav-icon">âœ…</span>Today's Tasks
+          <span class="nav-badge" id="taskBadge" style="display:none">0</span>
+        </button>
+        <button class="nav-btn" data-sec="backlogs" onclick="goSection('backlogs',this)">
+          <span class="nav-icon">ðŸ“š</span>Backlogs
+          <span class="nav-badge" id="backlogBadge" style="display:none">0</span>
+        </button>
+        <button class="nav-btn" data-sec="tests" onclick="goSection('tests',this)"><span class="nav-icon">ðŸ§ª</span>Test Arsenal</button>
+      </div>
+      <div class="sb-section">
+        <div class="sb-section-label">Tracker</div>
+        <button class="nav-btn" data-sec="chapters" onclick="goSection('chapters',this)"><span class="nav-icon">ðŸ“–</span>Chapter Tracker</button>
+        <button class="nav-btn" data-sec="revisions" onclick="goSection('revisions',this)">
+          <span class="nav-icon">ðŸ”„</span>Revision Engine
+          <span class="nav-badge" id="revBadge" style="display:none">0</span>
+        </button>
+        <button class="nav-btn" data-sec="pyq" onclick="goSection('pyq',this)"><span class="nav-icon">ðŸ“</span>PYQ Tracker</button>
+      </div>
+      <div class="sb-section">
+        <div class="sb-section-label">Intelligence</div>
+        <button class="nav-btn" data-sec="weakness" onclick="goSection('weakness',this)"><span class="nav-icon">âš¡</span>Weakness Detector</button>
+        <button class="nav-btn" data-sec="rankPredictor" onclick="goSection('rankPredictor',this)"><span class="nav-icon">ðŸ†</span>Rank Predictor</button>
+        <button class="nav-btn" data-sec="radar" onclick="goSection('radar',this)"><span class="nav-icon">ðŸŽ¯</span>Mission Radar</button>
+        <button class="nav-btn" data-sec="analytics" onclick="goSection('analytics',this)"><span class="nav-icon">ðŸ“Š</span>Study Analytics</button>
+        <button class="nav-btn" data-sec="achievements" onclick="goSection('achievements',this)"><span class="nav-icon">ðŸ…</span>Achievements</button>
+      </div>
+      <div class="sb-section">
+        <div class="sb-section-label">System</div>
+        <button class="nav-btn" data-sec="settings" onclick="goSection('settings',this)"><span class="nav-icon">âš™ï¸</span>Settings</button>
+      </div>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-progress-wrap">
+        <div class="sb-progress-label"><span>Today's Progress</span><span id="sbProgressPct">0%</span></div>
+        <div class="sb-progress-bar"><div class="sb-progress-fill" id="sbProgressFill" style="width:0%"></div></div>
+      </div>
+      <div class="sb-footer-tag">MISSION JEET v2.0</div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <!-- TOP BAR -->
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="mobile-menu-btn" onclick="openMobileSidebar()">â˜°</button>
+        <div class="topbar-left">
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageDate">Loading...</p>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-streak" id="topbarStreak">ðŸ”¥ <span id="topbarStreakVal">0</span> day streak</div>
+        <div class="topbar-user" id="topbarUser">Guest</div>
+        <button class="btn-logout" onclick="signOutUser()">ðŸšª Logout</button>
+      </div>
+    </div>
+
+    <div class="content" id="mainContent">
+
+<!-- ================================================================
+     DASHBOARD
+================================================================ -->
+<section id="sec-dashboard" class="section active">
+
+  <!-- TODAY'S MISSION HERO -->
+  <div class="mission-hero" style="margin-bottom:20px">
+    <div class="mission-hero-top">
+      <div class="mission-hero-heading">ðŸŽ¯ TODAY'S MISSION <span class="badge badge-blue" id="missionDateBadge">TODAY</span></div>
+      <button class="btn btn-ghost btn-sm" onclick="goSection('tasks')">View Tasks â†’</button>
+    </div>
+    <div class="mission-4grid">
+      <div class="m4-card"><div class="m4-val" style="color:var(--yellow-l)" id="h-pending">0</div><div class="m4-label">Pending Tasks</div></div>
+      <div class="m4-card"><div class="m4-val" style="color:var(--red-l)" id="h-revisions">0</div><div class="m4-label">Revisions Due</div></div>
+      <div class="m4-card"><div class="m4-val" style="color:var(--blue-l)" id="h-tests">0</div><div class="m4-label">Upcoming Tests</div></div>
+      <div class="m4-card"><div class="m4-val" style="color:var(--green-l)" id="h-streak">0</div><div class="m4-label">Day Streak ðŸ”¥</div></div>
+    </div>
+    <div class="mentor-quick" id="dashMentorQuick">
+      <span style="font-size:18px;flex-shrink:0">ðŸ’¡</span>
+      <span><strong>Aacharya:</strong> <span id="dashMentorText">Start your day with your most important task. Focus drives results.</span></span>
+    </div>
+  </div>
+
+  <!-- MAIN DASH GRID -->
+  <div class="grid-dash" style="margin-bottom:20px">
+    <!-- Pending Tasks -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">ðŸ“‹ Pending Work</div>
+        <button class="btn btn-ghost btn-sm" onclick="goSection('tasks')">All Tasks</button>
+      </div>
+      <div class="card-body-sm"><div class="task-list" id="dashTaskList"></div></div>
+    </div>
+    <!-- Aacharya AI Mentor -->
+    <div class="mentor-card" id="mentorCard">
+      <div class="mentor-header">
+        <div class="mentor-avatar">ðŸ§™</div>
+        <div style="flex:1;min-width:0">
+          <div class="mentor-name">Aacharya AI <span class="ai-badge">âœ¨ Gemini</span></div>
+          <div class="mentor-sub ai-status-live" id="mentorStatus">Analyzing your data...</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" style="flex-shrink:0;font-size:11px" onclick="generateMentorInsights(true)">â†º Refresh</button>
+      </div>
+      <div id="mentorThinking" class="mentor-thinking">
+        <span class="thinking-dots"><span>â—</span><span>â—</span><span>â—</span></span>
+        <span>Aacharya is thinking...</span>
+      </div>
+      <div id="mentorInsights"></div>
+    </div>
+  </div>
+
+  <!-- RECENT PERFORMANCE + STUDY WIDGET -->
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">ðŸ“ˆ Recent Performance</div>
+        <span class="badge badge-blue" id="perfAvgBadge">Avg: 0%</span>
+      </div>
+      <div class="card-body-sm">
+        <div id="recentPerfList"><div class="empty-state"><span class="empty-state-icon">ðŸ§ª</span><div class="empty-state-text">No test results yet.<br>Add your first test to see performance.</div></div></div>
+        <div style="margin-top:14px;display:flex;gap:16px">
+          <div style="text-align:center;flex:1"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--blue-l)" id="perfAvgScore">0%</div><div style="font-size:10px;color:var(--txt-3)">Average</div></div>
+          <div style="text-align:center;flex:1"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--green-l)" id="perfAccuracy">0%</div><div style="font-size:10px;color:var(--txt-3)">Accuracy</div></div>
+          <div style="text-align:center;flex:1"><div style="font-size:22px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--yellow-l)" id="perfTrend">â†’</div><div style="font-size:10px;color:var(--txt-3)">Trend</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- Study Hours Widget -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">â±ï¸ Study Hours</div>
+        <div class="timer-mode-btns">
+          <button class="timer-mode-btn active" onclick="setTimerMode(25,this)">25m</button>
+          <button class="timer-mode-btn" onclick="setTimerMode(50,this)">50m</button>
+          <button class="timer-mode-btn" onclick="setTimerMode(0,this)">Custom</button>
+        </div>
+      </div>
+      <div class="card-body-sm">
+        <div class="study-widget">
+          <div class="timer-display">
+            <div class="timer-time" id="timerDisplay">25:00</div>
+            <div class="timer-label" id="timerLabel">POMODORO</div>
+            <div class="timer-btns">
+              <button class="btn btn-primary btn-sm" id="timerStartBtn" onclick="toggleTimer()">â–¶ Start</button>
+              <button class="btn btn-ghost btn-sm" onclick="resetTimer()">â†º Reset</button>
+            </div>
+          </div>
+          <div class="hours-mini-grid">
+            <div class="hours-mini-card"><div class="hours-mini-val" id="todayHours">0.0</div><div class="hours-mini-label">Today (hrs)</div></div>
+            <div class="hours-mini-card"><div class="hours-mini-val" id="weekHours">0.0</div><div class="hours-mini-label">This Week</div></div>
+          </div>
+          <div class="log-session-row">
+            <input type="number" class="form-input" id="logHoursInput" placeholder="Hours studied" min="0.5" max="16" step="0.5" style="font-size:12px;padding:8px 12px">
+            <button class="btn btn-primary btn-sm" onclick="logStudySession()">Log</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPCOMING TESTS + QUICK STATS -->
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">ðŸ“… Upcoming Tests</div>
+        <button class="btn btn-ghost btn-sm" onclick="goSection('tests')">All Tests</button>
+      </div>
+      <div class="card-body-sm" id="dashUpcomingTests"><div class="empty-state"><span class="empty-state-icon">ðŸ§ª</span><div class="empty-state-text">No tests scheduled</div></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">ðŸŽ¯ Mission Target</div></div>
+      <div class="card-body-sm">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--txt-3)">Dream College</span><span style="font-weight:700" id="dash-college">Not Set</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--txt-3)">Target Rank</span><span style="font-weight:700" id="dash-rank">Not Set</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--txt-3)">JEE Main Target</span><span style="font-weight:700" id="dash-percentile">Not Set</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--txt-3)">Today's Hours Goal</span><span style="font-weight:700" id="dash-hours-goal">8 hrs</span></div>
+          <div style="margin-top:6px">
+            <div id="journeyStatus" class="badge badge-blue" style="width:100%;justify-content:center;padding:8px;font-size:12px">Set your mission in Settings</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================================================================
+     TODAY'S TASKS
+================================================================ -->
+<section id="sec-tasks" class="section">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">âœ… Today's Execution Plan</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="resetTasks()">â†º Reset</button>
+        <button class="btn btn-primary btn-sm" onclick="openModal('taskModal')">+ Add Task</button>
+      </div>
+    </div>
+    <div class="card-body"><div class="task-list" id="taskList"><div class="empty-state"><span class="empty-state-icon">ðŸ“</span><div class="empty-state-text">No tasks yet. Add your study plan!</div></div></div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-header">
+      <div class="card-title">ðŸ“‹ Manage Tasks</div>
+    </div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl" id="manageTaskTable">
+        <thead><tr><th></th><th>Task</th><th>Subject</th><th>Detail</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="manageTaskBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     BACKLOGS
+================================================================ -->
+<section id="sec-backlogs" class="section">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">ðŸ“š Backlogs</div>
+      <button class="btn btn-primary btn-sm" onclick="openBacklogModal()">+ Add Backlog</button>
+    </div>
+    <div class="card-body">
+      <div class="warning-notice">ðŸ“Œ Backlogs are topics you need to cover but haven't started. Clear them consistently to stay on track.</div>
+      <div class="task-list" id="backlogList"><div class="empty-state"><span class="empty-state-icon">ðŸŽ‰</span><div class="empty-state-text">No backlogs! You're all caught up.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     TEST ARSENAL
+================================================================ -->
+<section id="sec-tests" class="section">
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header">
+      <div class="card-title">ðŸ§ª Test Arsenal</div>
+      <button class="btn btn-primary btn-sm" onclick="openModal('testModal')">+ Schedule Test</button>
+    </div>
+    <div class="card-body" style="padding:14px 20px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm active" onclick="filterTests('all',this)">All</button>
+        <button class="btn btn-ghost btn-sm" onclick="filterTests('upcoming',this)">Upcoming</button>
+        <button class="btn btn-ghost btn-sm" onclick="filterTests('completed',this)">Completed</button>
+      </div>
+    </div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Test</th><th>Type</th><th>Date</th><th>âš›ï¸ Phy%</th><th>ðŸ§ª Chem%</th><th>ðŸ“ Math%</th><th>Overall</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="testTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CHAPTER TRACKER
+================================================================ -->
+<section id="sec-chapters" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:2px">ðŸ“– Chapter Tracker</h3>
+      <p style="font-size:11px;color:var(--txt-3)">Track completion and revision status for all JEE chapters</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span class="badge badge-green" id="chaptersDone">0 Complete</span>
+      <span class="badge badge-yellow" id="chaptersProgress">0 In Progress</span>
+      <span class="badge badge-red" id="chaptersRevDue">0 Rev. Due</span>
+    </div>
+  </div>
+
+  <!-- Physics -->
+  <div class="subject-panel">
+    <div class="subject-panel-header" onclick="toggleSubjectPanel('physics')">
+      <div class="subject-panel-title">
+        <div class="subject-panel-icon" style="background:rgba(37,99,235,0.15)">âš›ï¸</div>
+        <span>Physics</span>
+        <span class="badge badge-blue" id="phys-summary">0/30</span>
+      </div>
+      <div class="subject-panel-stats">
+        <div class="subject-progress-ring">
+          <svg width="44" height="44" viewBox="0 0 44 44"><circle fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5" cx="22" cy="22" r="18"/><circle class="chapter-ring-fill" id="phys-ring" fill="none" stroke="#2563eb" stroke-width="5" stroke-linecap="round" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"/></svg>
+          <div class="subject-progress-ring-text" id="phys-pct">0%</div>
+        </div>
+        <span class="subject-panel-chevron" id="phys-chevron">â–¼</span>
+      </div>
+    </div>
+    <div class="chapter-grid" id="phys-chapters"></div>
+  </div>
+
+  <!-- Chemistry -->
+  <div class="subject-panel">
+    <div class="subject-panel-header" onclick="toggleSubjectPanel('chemistry')">
+      <div class="subject-panel-title">
+        <div class="subject-panel-icon" style="background:rgba(5,150,105,0.15)">ðŸ§ª</div>
+        <span>Chemistry</span>
+        <span class="badge badge-green" id="chem-summary">0/29</span>
+      </div>
+      <div class="subject-panel-stats">
+        <div class="subject-progress-ring">
+          <svg width="44" height="44" viewBox="0 0 44 44"><circle fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5" cx="22" cy="22" r="18"/><circle class="chapter-ring-fill" id="chem-ring" fill="none" stroke="#059669" stroke-width="5" stroke-linecap="round" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"/></svg>
+          <div class="subject-progress-ring-text" id="chem-pct">0%</div>
+        </div>
+        <span class="subject-panel-chevron" id="chem-chevron">â–¼</span>
+      </div>
+    </div>
+    <div class="chapter-grid" id="chem-chapters"></div>
+  </div>
+
+  <!-- Mathematics -->
+  <div class="subject-panel">
+    <div class="subject-panel-header" onclick="toggleSubjectPanel('mathematics')">
+      <div class="subject-panel-title">
+        <div class="subject-panel-icon" style="background:rgba(217,119,6,0.15)">ðŸ“</div>
+        <span>Mathematics</span>
+        <span class="badge badge-yellow" id="math-summary">0/30</span>
+      </div>
+      <div class="subject-panel-stats">
+        <div class="subject-progress-ring">
+          <svg width="44" height="44" viewBox="0 0 44 44"><circle fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5" cx="22" cy="22" r="18"/><circle class="chapter-ring-fill" id="math-ring" fill="none" stroke="#d97706" stroke-width="5" stroke-linecap="round" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="113.1" transform="rotate(-90 22 22)"/></svg>
+          <div class="subject-progress-ring-text" id="math-pct">0%</div>
+        </div>
+        <span class="subject-panel-chevron" id="math-chevron">â–¼</span>
+      </div>
+    </div>
+    <div class="chapter-grid" id="math-chapters"></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     REVISION ENGINE
+================================================================ -->
+<section id="sec-revisions" class="section">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:2px">ðŸ”„ Revision Engine</h3>
+      <p style="font-size:11px;color:var(--txt-3)">AI Spaced Repetition: Optimized dynamically based on PYQs, test scores, and daily load balancing</p>
+    </div>
+    <button class="btn btn-ai btn-sm" onclick="aiOptimizeAllRevisions()">ðŸ¤– AI Auto-Schedule & Load Balance</button>
+  </div>
+  <div id="revisionAiTip" class="ai-insight-box" style="display:none;margin-bottom:16px"></div>
+  <div class="rev-stats" style="margin-bottom:16px">
+    <div class="rev-stat-card"><div class="rev-stat-val" style="color:var(--red-l)" id="revOverdue">0</div><div class="rev-stat-label">Overdue</div></div>
+    <div class="rev-stat-card"><div class="rev-stat-val" style="color:var(--yellow-l)" id="revDueToday">0</div><div class="rev-stat-label">Due Today</div></div>
+    <div class="rev-stat-card"><div class="rev-stat-val" style="color:var(--blue-l)" id="revUpcoming">0</div><div class="rev-stat-label">Upcoming</div></div>
+    <div class="rev-stat-card"><div class="rev-stat-val" style="color:var(--green-l)" id="revDone">0</div><div class="rev-stat-label">Completed</div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">ðŸ”´ Overdue Revisions</div></div>
+    <div class="card-body" id="revOverdueList"><div class="empty-state"><span class="empty-state-icon">ðŸŽ‰</span><div class="empty-state-text">No overdue revisions!</div></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">ðŸ“… Due Today</div></div>
+    <div class="card-body" id="revTodayList"><div class="empty-state"><span class="empty-state-icon">âœ…</span><div class="empty-state-text">No revisions due today</div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">ðŸ“† Upcoming Revisions</div></div>
+    <div class="card-body" id="revUpcomingList"><div class="empty-state"><span class="empty-state-icon">ðŸ“…</span><div class="empty-state-text">Mark chapters as complete to auto-schedule revisions</div></div></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     PYQ TRACKER
+================================================================ -->
+<section id="sec-pyq" class="section">
+  <div class="pyq-stats">
+    <div class="pyq-stat-card"><div class="pyq-stat-val" style="color:var(--blue-l)" id="pyqTotalSolved">0</div><div class="pyq-stat-label">Total Solved</div></div>
+    <div class="pyq-stat-card"><div class="pyq-stat-val" style="color:var(--green-l)" id="pyqAccuracy">0%</div><div class="pyq-stat-label">Avg Accuracy</div></div>
+    <div class="pyq-stat-card"><div class="pyq-stat-val" style="color:var(--yellow-l)" id="pyqPending">0</div><div class="pyq-stat-label">Chapters Pending</div></div>
+  </div>
+  <div id="pyqContent">
+    <div class="pyq-subject-wrap" id="pyqPhysicsWrap">
+      <div class="pyq-subject-header" onclick="togglePYQSubject('physics')">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">âš›ï¸</span><span style="font-weight:700;font-size:13px">Physics PYQs</span><span class="badge badge-blue" id="pyqPhysBadge">0 solved</span></div>
+        <span style="color:var(--txt-3)">â–¼</span>
+      </div>
+      <div id="pyqPhysList" style="display:none;padding:4px 0"></div>
+    </div>
+    <div class="pyq-subject-wrap" id="pyqChemistryWrap">
+      <div class="pyq-subject-header" onclick="togglePYQSubject('chemistry')">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">ðŸ§ª</span><span style="font-weight:700;font-size:13px">Chemistry PYQs</span><span class="badge badge-green" id="pyqChemBadge">0 solved</span></div>
+        <span style="color:var(--txt-3)">â–¼</span>
+      </div>
+      <div id="pyqChemList" style="display:none;padding:4px 0"></div>
+    </div>
+    <div class="pyq-subject-wrap" id="pyqMathWrap">
+      <div class="pyq-subject-header" onclick="togglePYQSubject('mathematics')">
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">ðŸ“</span><span style="font-weight:700;font-size:13px">Mathematics PYQs</span><span class="badge badge-yellow" id="pyqMathBadge">0 solved</span></div>
+        <span style="color:var(--txt-3)">â–¼</span>
+      </div>
+      <div id="pyqMathList" style="display:none;padding:4px 0"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     WEAKNESS DETECTOR
+================================================================ -->
+<section id="sec-weakness" class="section">
+  <div style="margin-bottom:16px">
+    <h3 style="font-size:16px;font-weight:800;margin-bottom:4px">âš¡ Weakness Detector</h3>
+    <p style="font-size:12px;color:var(--txt-3)">Automatically detected from your test performance and chapter data</p>
+  </div>
+  <div class="grid-3" style="margin-bottom:20px">
+    <div class="card" style="border-color:rgba(220,38,38,0.2);background:rgba(220,38,38,0.04)">
+      <div class="card-body" style="text-align:center">
+        <div style="font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--red-l)" id="weakDangerCount">0</div>
+        <div style="font-size:10px;color:var(--txt-3);margin-top:4px">DANGER ZONES (&lt;40%)</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(217,119,6,0.2);background:rgba(217,119,6,0.04)">
+      <div class="card-body" style="text-align:center">
+        <div style="font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--yellow-l)" id="weakCautionCount">0</div>
+        <div style="font-size:10px;color:var(--txt-3);margin-top:4px">CAUTION ZONES (40â€“60%)</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(5,150,105,0.2);background:rgba(5,150,105,0.04)">
+      <div class="card-body" style="text-align:center">
+        <div style="font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--green-l)" id="weakGoodCount">0</div>
+        <div style="font-size:10px;color:var(--txt-3);margin-top:4px">STRONG AREAS (&gt;60%)</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">ðŸ”´ Danger Zones â€” Immediate Action Required</div></div>
+    <div class="card-body"><div class="weakness-grid" id="weakDangerList"><div class="empty-state"><span class="empty-state-icon">ðŸ†</span><div class="empty-state-text">No danger zones! Keep it up.</div></div></div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">ðŸŸ¡ Caution Zones â€” Needs Improvement</div></div>
+    <div class="card-body"><div class="weakness-grid" id="weakCautionList"><div class="empty-state"><span class="empty-state-icon">âœ¨</span><div class="empty-state-text">No caution zones!</div></div></div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">âœ… Strong Areas â€” Maintain These</div></div>
+    <div class="card-body"><div class="weakness-grid" id="weakGoodList"><div class="empty-state"><span class="empty-state-icon">ðŸ“š</span><div class="empty-state-text">Complete chapters and tests to see your strong areas.</div></div></div></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     RANK PREDICTOR
+================================================================ -->
+<section id="sec-rankPredictor" class="section">
+  <div class="rank-toggle-wrap">
+    <button class="rank-toggle-btn active" onclick="setRankMode('main',this)">JEE Main</button>
+    <button class="rank-toggle-btn" onclick="setRankMode('advanced',this)">JEE Advanced</button>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="rank-gauge-wrap">
+        <div class="rank-gauge">
+          <svg width="180" height="180" viewBox="0 0 180 180">
+            <circle fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12" cx="90" cy="90" r="72"/>
+            <circle id="rankGaugeRing" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round" cx="90" cy="90" r="72" stroke-dasharray="452.4" stroke-dashoffset="452.4" transform="rotate(-90 90 90)"/>
+          </svg>
+          <div class="rank-gauge-text">
+            <div class="rank-pct" id="rankPctVal">0</div>
+            <div class="rank-pct-label">Percentile</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--txt-2);text-align:center" id="rankEstimate">Based on your mock test average</div>
+      </div>
+    </div>
+    <div class="rank-cards-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px;align-content:start">
+      <div class="rank-info-card"><div class="rank-info-val" style="color:var(--blue-l)" id="rankCurrent">â€”</div><div class="rank-info-label">Current Est. Rank</div></div>
+      <div class="rank-info-card"><div class="rank-info-val" style="color:var(--green-l)" id="rankTarget">â€”</div><div class="rank-info-label">Target Rank</div></div>
+      <div class="rank-info-card"><div class="rank-info-val" style="color:var(--yellow-l)" id="rankGap">â€”</div><div class="rank-info-label">Gap to Close</div></div>
+      <div class="rank-info-card"><div class="rank-info-val" style="color:var(--purple-l)" id="rankScore">â€”</div><div class="rank-info-label">Needed Score</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">ðŸ“Š Subject-wise Gap Analysis</div></div>
+    <div class="card-body" id="rankGapAnalysis">
+      <div class="empty-state"><span class="empty-state-icon">ðŸŽ¯</span><div class="empty-state-text">Take mock tests to see your rank gap analysis</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-header"><div class="card-title">ðŸ’¡ What You Need to Reach Your Goal</div></div>
+    <div class="card-body" id="rankAdvice">
+      <div class="info-notice">Set your target rank in Settings â†’ Mission to get personalized advice.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     MISSION RADAR
+================================================================ -->
+<section id="sec-radar" class="section">
+  <div class="mission-score-hero">
+    <div class="mission-score-val" id="missionScoreVal">0</div>
+    <div class="mission-score-label">Mission Score â€” Your overall IIT readiness</div>
+    <div class="mission-score-bar"><div class="mission-score-bar-fill" id="missionScoreFill" style="width:0%"></div></div>
+  </div>
+  <div class="radar-wrap">
+    <div class="radar-chart-container"><canvas id="radarChart"></canvas></div>
+    <div class="radar-score-grid" id="radarScoreGrid"></div>
+  </div>
+</section>
+
+<!-- ================================================================
+     STUDY ANALYTICS
+================================================================ -->
+<section id="sec-analytics" class="section">
+  <div class="analytics-kpi" id="analyticsKPI">
+    <div class="kpi-card"><div class="kpi-val" style="color:var(--blue-l)" id="kpiTests">0</div><div class="kpi-label">Total Tests</div><div class="kpi-trend flat" id="kpiTestsTrend">â€”</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:var(--green-l)" id="kpiAvgScore">0%</div><div class="kpi-label">Test Average</div><div class="kpi-trend flat" id="kpiAvgTrend">â€”</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:var(--yellow-l)" id="kpiStreak">0</div><div class="kpi-label">Best Streak</div><div class="kpi-trend flat">Days</div></div>
+    <div class="kpi-card"><div class="kpi-val" style="color:var(--purple-l)" id="kpiHours">0</div><div class="kpi-label">Study Hours</div><div class="kpi-trend flat">Total</div></div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin: 16px 0;flex-wrap:wrap">
+    <button class="btn btn-ghost" onclick="openHistoryModal('tests')">📊 View Stored Test Records</button>
+    <button class="btn btn-ghost" onclick="openHistoryModal('study')">⏱️ View Study Session Logs</button>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">ðŸ“ˆ Test Score Trend</div></div>
+      <div class="card-body">
+        <div class="chart-container">
+          <canvas id="chartTestTrend"></canvas>
+          <div id="chartTestTrendEmpty" class="empty-state hidden">
+            <span class="empty-state-icon">ðŸ“ˆ</span>
+            <div class="empty-state-text">No completed tests yet.<br>Submit marks in Test Arsenal to see trend.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">âš–ï¸ Subject Balance</div></div>
+      <div class="card-body">
+        <div class="chart-container">
+          <canvas id="chartSubjectBalance"></canvas>
+          <div id="chartSubjectBalanceEmpty" class="empty-state hidden">
+            <span class="empty-state-icon">âš–ï¸</span>
+            <div class="empty-state-text">No test data.<br>Add tests to see subject balance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header"><div class="card-title">ðŸ“… Study Hours (Last 14 Days)</div></div>
+    <div class="card-body"><div class="chart-container"><canvas id="chartStudyHours"></canvas></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">ðŸ—“ï¸ Consistency Heatmap (Last 90 Days)</div></div>
+    <div class="card-body">
+      <div class="heatmap-month-labels" id="heatmapMonthLabels"></div>
+      <div class="heatmap-wrap" id="heatmapGrid"></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--txt-3)">
+        <span>Less</span>
+        <div style="width:12px;height:12px;border-radius:2px;background:rgba(255,255,255,0.05)"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:rgba(37,99,235,0.2)"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:rgba(37,99,235,0.45)"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:rgba(37,99,235,0.7)"></div>
+        <div style="width:12px;height:12px;border-radius:2px;background:#2563eb"></div>
+        <span>More</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     ACHIEVEMENTS
+================================================================ -->
+<section id="sec-achievements" class="section">
+  <div style="margin-bottom:16px">
+    <h3 style="font-size:16px;font-weight:800;margin-bottom:2px">ðŸ… Achievements</h3>
+    <p style="font-size:11px;color:var(--txt-3)">Milestones on your journey to IIT</p>
+  </div>
+  <div class="achievements-grid" id="achievementsGrid"></div>
+</section>
+
+<!-- ================================================================
+     SETTINGS
+================================================================ -->
+<section id="sec-settings" class="section">
+  <div class="settings-tabs">
+    <button class="settings-tab active" onclick="showSettingsTab('profile',this)">ðŸ‘¤ Profile</button>
+    <button class="settings-tab" onclick="showSettingsTab('mission',this)">ðŸš€ Mission</button>
+    <button class="settings-tab" onclick="showSettingsTab('data',this)">ðŸ“Š Data</button>
+  </div>
+
+  <!-- Profile Tab -->
+  <div class="settings-panel active" id="stab-profile">
+    <div class="card" style="max-width:640px">
+      <div class="card-header"><div class="card-title">ðŸ‘¤ Your Profile</div></div>
+      <div class="card-body">
+        <div class="profile-header-row">
+          <div class="profile-photo-wrap">
+            <div class="profile-photo" id="profilePhoto">
+              <img id="profilePhotoImg" src="" alt="" style="display:none">
+              <span id="profilePhotoFallback">ðŸ‘¤</span>
+            </div>
+            <label class="profile-photo-btn" for="profilePhotoInput" title="Change photo">ðŸ“·
+              <input type="file" id="profilePhotoInput" accept="image/*" style="display:none" onchange="uploadProfilePhoto(this)">
+            </label>
+          </div>
+          <div>
+            <div class="profile-display-name" id="profileDisplayName">Student</div>
+            <div class="profile-display-email" id="profileDisplayEmail">email@example.com</div>
+          </div>
+        </div>
+        <div class="section-divider">Personal Info</div>
+        <div class="form-group">
+          <label class="form-label">Display Name</label>
+          <input type="text" class="form-input" id="pf-name" placeholder="Your name...">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Target Exam</label>
+            <select class="form-input" id="pf-exam">
+              <option value="JEE Main">JEE Main</option>
+              <option value="JEE Advanced">JEE Advanced</option>
+              <option value="Both">Both (Main + Advanced)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Class / Year</label>
+            <input type="text" class="form-input" id="pf-class" placeholder="e.g., 12th, Dropper...">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">School</label>
+            <input type="text" class="form-input" id="pf-school" placeholder="School name...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <input type="text" class="form-input" id="pf-city" placeholder="Your city...">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Coaching</label>
+            <input type="text" class="form-input" id="pf-coaching" placeholder="e.g., Allen, Aakash...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Batch</label>
+            <input type="text" class="form-input" id="pf-batch" placeholder="e.g., Alpha...">
+          </div>
+        </div>
+        <div class="section-divider">Daily Schedule</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Wake Up Time</label><input type="time" class="form-input" id="pf-wake" value="05:00"></div>
+          <div class="form-group"><label class="form-label">Sleep Time</label><input type="time" class="form-input" id="pf-sleep" value="23:00"></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="saveProfile()">ðŸ’¾ Save Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission Tab -->
+  <div class="settings-panel" id="stab-mission">
+    <div class="card" style="max-width:640px">
+      <div class="card-header"><div class="card-title">ðŸš€ JEE Mission</div></div>
+      <div class="card-body">
+        <div class="info-notice">Set your target college and rank. These power the Rank Predictor, Aacharya AI, and Mission Radar.</div>
+        <div class="section-divider">Target</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Dream College</label>
+            <select class="form-input" id="ms-college">
+              <option value="">Select...</option>
+              <option>IIT Bombay</option><option>IIT Delhi</option><option>IIT Madras</option>
+              <option>IIT Kanpur</option><option>IIT Kharagpur</option><option>IIT Roorkee</option>
+              <option>IIT Guwahati</option><option>IIT Hyderabad</option><option>IIT BHU</option>
+              <option>IIT Indore</option><option>IIT Ropar</option><option>IIT Patna</option>
+              <option>NIT Trichy</option><option>NIT Surathkal</option><option>NIT Warangal</option>
+              <option>BITS Pilani</option><option>BITS Goa</option><option>BITS Hyderabad</option>
+              <option>IIIT Hyderabad</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dream Branch</label>
+            <select class="form-input" id="ms-branch">
+              <option value="">Select...</option>
+              <option>Computer Science (CSE)</option><option>Electrical Engineering (EE)</option>
+              <option>Mechanical Engineering (ME)</option><option>Mathematics & Computing</option>
+              <option>Engineering Physics</option><option>Electronics & Communication</option>
+              <option>Chemical Engineering</option><option>Aerospace Engineering</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Target Rank (JEE Advanced)</label>
+            <select class="form-input" id="ms-rank">
+              <option value="">Select...</option>
+              <option value="100">Top 100 (AIR 1-100)</option>
+              <option value="500">Top 500 (AIR 101-500)</option>
+              <option value="1000">Top 1000 (AIR 501-1000)</option>
+              <option value="2500">Top 2500 (AIR 1001-2500)</option>
+              <option value="5000">Top 5000 (AIR 2501-5000)</option>
+              <option value="10000">Top 10000 (AIR 5001-10000)</option>
+              <option value="15000">Qualify (AIR &lt;15000)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">JEE Main Target Percentile</label>
+            <select class="form-input" id="ms-percentile">
+              <option value="">Select...</option>
+              <option value="99.5">99.5+ (Top 0.5%)</option>
+              <option value="99">99+ (Top 1%)</option>
+              <option value="98">98+ (Top 2%)</option>
+              <option value="97">97+ (Top 3%)</option>
+              <option value="95">95+ (Top 5%)</option>
+              <option value="90">90+ (Top 10%)</option>
+            </select>
+          </div>
+        </div>
+        <div class="section-divider">Daily Goals</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Daily Study Hours</label><input type="number" class="form-input" id="ms-hours" placeholder="8" min="1" max="24"></div>
+          <div class="form-group"><label class="form-label">Daily Tasks Target</label><input type="number" class="form-input" id="ms-tasks" placeholder="10" min="1" max="50"></div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="saveMission()">ðŸš€ Save Mission</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Data Tab -->
+  <div class="settings-panel" id="stab-data">
+    <div class="card" style="max-width:640px;margin-bottom:16px">
+      <div class="card-header"><div class="card-title">ðŸ“‹ Task Management</div><button class="btn btn-primary btn-sm" onclick="openModal('taskModal')">+ Add Task</button></div>
+      <div class="card-body" style="padding:0">
+        <table class="tbl"><thead><tr><th></th><th>Task</th><th>Subject</th><th>Detail</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="settingsTaskBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+    </div><!-- /content -->
+  </main>
+</div><!-- /app -->
+
+<!-- BOTTOM NAV (Mobile) -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bottom-nav-inner">
+    <button class="bottom-nav-btn active" data-sec="dashboard" onclick="goSection('dashboard',null,true)">
+      <span class="bn-icon">ðŸŽ¯</span><span class="bn-label">Mission</span>
+    </button>
+    <button class="bottom-nav-btn" data-sec="chapters" onclick="goSection('chapters',null,true)">
+      <span class="bn-icon">ðŸ“–</span><span class="bn-label">Chapters</span>
+    </button>
+    <button class="bottom-nav-btn" data-sec="tests" onclick="goSection('tests',null,true)">
+      <span class="bn-icon">ðŸ§ª</span><span class="bn-label">Tests</span>
+    </button>
+    <button class="bottom-nav-btn" data-sec="revisions" onclick="goSection('revisions',null,true)">
+      <div class="bottom-nav-icon-wrap">
+        <span class="bn-icon">ðŸ”„</span>
+        <span class="bottom-nav-badge" id="bnRevBadge" style="display:none">0</span>
+      </div>
+      <span class="bn-label">Revise</span>
+    </button>
+    <button class="bottom-nav-btn" data-sec="settings" onclick="goSection('settings',null,true)">
+      <span class="bn-icon">âš™ï¸</span><span class="bn-label">Settings</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ====================================================== MODALS -->
+
+<!-- Task Modal -->
+<div class="modal-bg" id="taskModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="taskModalTitle">Add Task</div>
+      <button class="modal-close" onclick="closeModal('taskModal')">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Task Name</label><input type="text" class="form-input" id="t-name" placeholder="e.g., Physics DPP Chapter 5"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Emoji / Icon</label>
+          <select class="form-input" id="t-icon">
+            <option value="âš¡">âš¡ General</option><option value="ðŸ“š">ðŸ“š Study</option>
+            <option value="âœï¸">âœï¸ Practice</option><option value="ðŸ§ ">ðŸ§  Concept</option>
+            <option value="ðŸŽ¯">ðŸŽ¯ Target</option><option value="ðŸ”¬">ðŸ”¬ Science</option>
+            <option value="ðŸ“">ðŸ“ Math</option><option value="ðŸ§ª">ðŸ§ª Chemistry</option>
+            <option value="ðŸ”­">ðŸ”­ Physics</option><option value="ðŸ“–">ðŸ“– Reading</option>
+            <option value="ðŸ“">ðŸ“ Notes</option><option value="ðŸ—‚ï¸">ðŸ—‚ï¸ Revision</option>
+            <option value="ðŸ’¡">ðŸ’¡ Concept</option><option value="ðŸ†">ðŸ† Test</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-input" id="t-subject">
+            <option value="General">General</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Mathematics">Mathematics</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Topic / Details</label><input type="text" class="form-input" id="t-detail" placeholder="What to study..."></div>
+      <input type="hidden" id="t-editId">
+      <button class="btn btn-primary" style="width:100%" onclick="saveTask()">âœ… Save Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal -->
+<div class="modal-bg" id="testModal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title" id="testModalTitle">ðŸ“… Schedule Test</div>
+      <button class="modal-close" onclick="closeModal('testModal')">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Test Name / Number</label>
+        <input type="text" class="form-input" id="ts-number" placeholder="e.g. Mock 1, JEE Main Jan 2025, Full Syllabus #3...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Test Type</label>
+          <select class="form-input" id="ts-type">
+            <option value="JEE Main">JEE Main</option>
+            <option value="JEE Advanced">JEE Advanced</option>
+            <option value="Mock Test">Mock Test</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="ts-date">
+        </div>
+      </div>
+      <div style="font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--txt-3);margin:12px 0 6px">Max Marks per Subject</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">âš›ï¸ Physics</label>
+          <input type="number" class="form-input" id="ts-phys-max" value="120" min="1" oninput="updateTestTotal()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">ðŸ§ª Chemistry</label>
+          <input type="number" class="form-input" id="ts-chem-max" value="120" min="1" oninput="updateTestTotal()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ðŸ“ Mathematics</label>
+          <input type="number" class="form-input" id="ts-math-max" value="120" min="1" oninput="updateTestTotal()">
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end">
+          <div style="width:100%;padding:10px 13px;background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);border-radius:var(--r-sm);font-size:12px;color:var(--neon)">Total: <strong id="tsTotalMarks">360</strong> marks</div>
+        </div>
+      </div>
+      <input type="hidden" id="ts-editId">
+      <button class="btn btn-primary" style="width:100%;margin-top:8px" onclick="saveTest()">ðŸ“… Schedule Test</button>
+    </div>
+  </div>
+</div>
+
+<!-- Marks Modal -->
+<div class="modal-bg" id="marksModal">
+  <div class="modal" style="max-width:540px">
+    <div class="modal-header">
+      <div class="modal-title">ðŸ“Š Submit Test Results</div>
+      <button class="modal-close" onclick="closeModal('marksModal')">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <div class="info-notice" id="marksTestInfo">Test info</div>
+      <div class="marks-col-header">
+        <div>Subject</div><div style="text-align:center">Obtained</div><div style="text-align:center">Max</div><div style="text-align:center">Score</div>
+      </div>
+      <div class="marks-subject-row">
+        <div class="marks-subj-label" style="color:var(--blue-l)">âš›ï¸ Physics</div>
+        <input type="number" class="form-input" id="m-phys" placeholder="0" min="0" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <input type="number" class="form-input" id="m-phys-max" placeholder="120" min="1" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <div id="m-phys-pct" style="text-align:center;font-weight:800;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--txt-3)">â€”</div>
+      </div>
+      <div class="marks-subject-row">
+        <div class="marks-subj-label" style="color:var(--green-l)">ðŸ§ª Chemistry</div>
+        <input type="number" class="form-input" id="m-chem" placeholder="0" min="0" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <input type="number" class="form-input" id="m-chem-max" placeholder="120" min="1" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <div id="m-chem-pct" style="text-align:center;font-weight:800;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--txt-3)">â€”</div>
+      </div>
+      <div class="marks-subject-row">
+        <div class="marks-subj-label" style="color:var(--yellow-l)">ðŸ“ Maths</div>
+        <input type="number" class="form-input" id="m-math" placeholder="0" min="0" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <input type="number" class="form-input" id="m-math-max" placeholder="120" min="1" oninput="updateMarksTotal()" style="text-align:center;padding:7px 4px">
+        <div id="m-math-pct" style="text-align:center;font-weight:800;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--txt-3)">â€”</div>
+      </div>
+      <div class="marks-total-row">
+        <span style="font-size:12px;font-weight:800;color:var(--txt-2)">Total</span>
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-weight:900;font-size:15px;color:var(--txt-1)" id="marksTotalDisplay">â€” / â€”</span>
+          <span style="font-size:20px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--blue-l)" id="marksPctDisplay">â€”%</span>
+        </div>
+      </div>
+      <div id="marksAiBox" class="ai-insight-box"></div>
+      <div style="font-size:10.5px;color:var(--txt-3);margin:10px 0 14px">âš ï¸ Auto-updates weakness analysis, rank predictor &amp; Aacharya AI insights.</div>
+      <button class="btn btn-primary" style="width:100%" onclick="submitMarks()">âœ… Submit &amp; AI Analyze</button>
+    </div>
+  </div>
+</div>
+
+<!-- Backlog Modal -->
+<div class="modal-bg" id="backlogModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add Backlog</div>
+      <button class="modal-close" onclick="closeModal('backlogModal')">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Topic / Chapter</label><input type="text" class="form-input" id="bl-name" placeholder="e.g., Rotational Mechanics"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-input" id="bl-subject">
+            <option>Physics</option><option>Chemistry</option><option>Mathematics</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-input" id="bl-priority">
+            <option value="high">ðŸ”´ High</option>
+            <option value="medium">ðŸŸ¡ Medium</option>
+            <option value="low">ðŸŸ¢ Low</option>
+          </select>
+        </div>
+      </div>
+      <input type="hidden" id="bl-editId">
+      <button class="btn btn-primary" style="width:100%" onclick="saveBacklog()">âœ… Add Backlog</button>
+    </div>
+  </div>
+</div>
+
+<!-- PYQ Log Modal -->
+<div class="modal-bg" id="pyqModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="pyqModalTitle">Log PYQ Progress</div>
+      <button class="modal-close" onclick="closeModal('pyqModal')">Ã—</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Chapter</label><input type="text" class="form-input" id="pyq-chapter" readonly></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Questions Solved</label><input type="number" class="form-input" id="pyq-solved" placeholder="0" min="0"></div>
+        <div class="form-group"><label class="form-label">Total PYQs</label><input type="number" class="form-input" id="pyq-total" placeholder="50" min="1"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Accuracy (%)</label><input type="number" class="form-input" id="pyq-accuracy" placeholder="75" min="0" max="100"></div>
+      <input type="hidden" id="pyq-subject">
+      <input type="hidden" id="pyq-chapterId">
+      <button class="btn btn-primary" style="width:100%" onclick="savePYQ()">💾 Save PYQ Progress</button>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-bg" id="historyModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-header">
+      <div class="modal-title">📊 Stored Data History</div>
+      <button class="modal-close" onclick="closeModal('historyModal')">×</button>
+    </div>
+    <div class="modal-body" style="padding-top:10px">
+      <div class="settings-tabs" style="margin-bottom:15px;display:flex;gap:10px">
+        <button class="settings-tab active" id="tab-hist-tests" onclick="setHistoryTab('tests')">📝 Test History</button>
+        <button class="settings-tab" id="tab-hist-study" onclick="setHistoryTab('study')">⏱️ Study Sessions</button>
+      </div>
+      
+      <div id="historyContent" style="max-height:400px;overflow-y:auto">
+        <!-- Dynamic Table -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-box" id="toastBox"></div>
+
+  <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      const errDiv = document.createElement('div');
+      errDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(220,38,38,0.95);color:#fff;padding:20px;z-index:99999;font-family:monospace;font-size:13px;line-height:1.6;border-bottom:3px solid #ff0055;max-height:50vh;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,0.5)';
+      errDiv.innerHTML = `
+        <h3 style="margin-bottom:8px;font-size:15px;font-weight:900">⚠️ Mission Jeet Diagnostic Alert</h3>
+        <div><strong>Message:</strong> ${message}</div>
+        <div><strong>File:</strong> ${source} (Line ${lineno}:${colno})</div>
+        ${error && error.stack ? `<pre style="margin-top:10px;background:rgba(0,0,0,0.3);padding:10px;border-radius:4px;white-space:pre-wrap;font-size:11px">${error.stack}</pre>` : ''}
+        <button onclick="this.parentElement.remove()" style="margin-top:10px;background:#fff;color:#000;border:none;padding:5px 12px;border-radius:4px;font-weight:700;cursor:pointer">Dismiss</button>
+      `;
+      document.body.appendChild(errDiv);
+      return false;
+    };
+  </script>
+  <script defer src="app.js" charset="utf-8"></script>
+</body>
+</html>
+
